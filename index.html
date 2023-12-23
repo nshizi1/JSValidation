@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote your president</title>
+    <style>
+        :root{
+            --color-one: #6A2634;
+            --color-two: #943939;
+            --color-three: #E18237;
+            --color-four: #FFF6F6;
+        }
+        *{
+            @import url(https://fonts.googleapis.com/css?family=Syne:regular,500,600,700,800);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Syne', sans-serif;
+        }
+        .secondForm, .thirdForm{
+            display: none;
+        }
+        h1{
+            text-align: center;
+            margin-top: 50px;
+            color: #6A2634;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+        .work{
+            background-color: var(--color-three);
+            width: -moz-fit-content;
+            width: fit-content;
+            padding: 50px 10px;
+            margin: auto;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow:  9px 9px 18px #bdb6b6,
+             -9px -9px 18px #ffffff;
+             min-width: 500px;
+
+        }
+        label{
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-four);
+        }
+        #firstForm{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        input{
+            padding: 10px;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        button{
+            width: -moz-fit-content;
+            width: fit-content;
+            cursor: pointer;
+            padding: 10px 15px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 5px;
+            border: none;
+            background-color: var(--color-two);
+            color: var(--color-four);
+            transition: 300ms ease;
+        }
+        button:hover{
+            background-color: var(--color-one);
+        }
+        #finalMessage{
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        #secondForm{
+            & form{
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        .form{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            & h2{
+                color: var(--color-two);
+            }
+            & ul{
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: .3rem;
+                color: var(--color-four);
+            }
+            & select{
+                padding: 10px 15px;
+                outline: none;
+                border: none;
+                border-radius: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Vote your best president</h1>
+    <div class="work">
+        <form action="" method="post" id="firstForm">
+            <label for="numberInput">Enter Your age:</label>
+            <input type="number" id="numberInput">
+            <button type="button" onclick="submitForm()">Continue</button>
+        </form>
+        <div class="secondForm" id="secondForm">
+            <!-- <h2>Personal Details</h2> -->
+            <form action="" method="post" autocomplete="off">
+                <label for="firstName">First Name:</label>
+                <input type="text" name="names" id="firstName">
+                <label for="location">Location</label>
+                <input type="text" name="location" id="location">
+                <label for="idNbr">Identification Number</label>
+                <input type="text" name="idNbr" id="idNbr">
+                <button type="button" onclick="personal()">Continue</button>
+            </form>
+        </div>
+        <form action="" method="post" class="thirdForm" id="thirdForm" autocomplete="off">
+            <div class="form">
+                <h2>Available candidates</h2>
+                <ul>
+                    <li>Barack Obama</li>
+                    <li>George Washington</li>
+                    <li>Joe Biden</li>
+                    <li>Donald Trump</li>
+                    <li>Thomas Jefferson</li>
+                </ul>
+                <select title="choice" name="choice" id="choice">
+                    <option value="">Choose your leader</option>
+                    <option value="obama">Barack Obama</option>
+                    <option value="george">George Washington</option>
+                    <option value="trump">Donald Trump</option>
+                    <option value="biden">Joe Biden</option>
+                    <option value="thomas">Thomas Jefferson</option>
+                </select>
+                <button type="button" onclick="vote()">Vote President</button>
+            </div>
+        </form>
+        <p id="finalMessage"></p>
+    </div>
+
+
+    <script>
+        const numberInput = document.getElementById('numberInput');
+    
+        numberInput.addEventListener('input', function() {
+
+            const inputValue = numberInput.value.trim();
+    
+            if (inputValue === '') {
+                // If the input is empty, revert to default outline color
+                numberInput.style.outlineColor = ''; // Sets the outline color to default
+                var errorMessage = document.getElementById("errorMessage").innerHTML="";
+            } else {
+                const numericValue = parseFloat(inputValue);
+                
+                if (isNaN(numericValue) || numericValue > 100 || numericValue <= 17) {
+                    numberInput.style.outlineColor = 'red';
+                    var errorMessage = document.getElementById("errorMessage");
+                    // errorMessage.innerHTML="Input in invalid";
+                    // errorMessage.style.color='red';
+                } else {
+                    numberInput.style.outlineColor = 'green';
+                    var errorMessage = document.getElementById("errorMessage");
+                    // errorMessage.innerHTML="Input is valid";
+                    // errorMessage.style.color='green';
+                }
+
+            }
+        });
+
+        function submitForm(){
+            // console.log("Lorem")
+            var number = document.getElementById("numberInput");
+            var finalMessage = document.getElementById("finalMessage");
+            if (number.value === "") {
+                finalMessage.innerHTML = "Please enter something in the input field.";
+                finalMessage.style.color = 'red';
+            }else if(number.value>100 || number.value<=17){
+                var finalMessage = document.getElementById("finalMessage");
+                finalMessage.innerHTML="You can not vote if you are "+number.value+" years old";
+                finalMessage.style.color='red';
+            }else{
+                var finalMessage = document.getElementById("finalMessage");
+                finalMessage.innerHTML = "";
+
+                var secondForm = document.getElementById("secondForm");
+                secondForm.style.display = "block";
+                var firstForm = document.getElementById("firstForm");
+                firstForm.style.display = "none";
+            }
+        }
+        
+        function personal(){
+            var firstName = document.getElementById("firstName").value;
+            var location = document.getElementById("location").value;
+            var idNbr = document.getElementById("idNbr").value;
+            if(firstName==="" || location==="" || idNbr===""){
+                var finalMessage = document.getElementById("finalMessage");
+                finalMessage.innerHTML="Please fill in all the fields";
+                finalMessage.style.color='red';
+            }else{
+                var finalMessage = document.getElementById("finalMessage").innerHTML="";
+                var secondForm = document.getElementById("secondForm").style.display="none";
+                var thirdForm= document.getElementById("thirdForm").style.display="block";
+            }
+        }
+
+        function vote(){
+            var choice = document.getElementById("choice").value;
+            var finalMessage = document.getElementById("finalMessage").innerHTML="";
+            var thirdForm = document.getElementById("thirdForm").style.display="none";
+            var finalMessage = document.getElementById("finalMessage");
+            finalMessage.innerHTML="Your vote for "+choice+" has been saved";
+            finalMessage.style.color="#F8FFD2";
+        }
+    </script>
+</body>
+</html>
